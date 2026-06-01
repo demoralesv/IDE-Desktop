@@ -117,6 +117,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Logic\Textboxs.cs" />
+    <Compile Include="Net\Models.cs" />
+    <Compile Include="UI\Mistareas.xaml.cs">
+      <DependentUpon>Mistareas.xaml</DependentUpon>
+    </Compile>
+    <Page Include="UI\CreateAccount.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\GitWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -136,6 +144,9 @@
     <Compile Include="Logic\FileButtons.cs" />
     <Compile Include="Net\HTTPnet.cs" />
     <Compile Include="Terminal\terminal.cs" />
+    <Compile Include="UI\CreateAccount.xaml.cs">
+      <DependentUpon>CreateAccount.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\GitWindow.xaml.cs">
       <DependentUpon>GitWindow.xaml</DependentUpon>
     </Compile>
@@ -146,6 +157,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\Mistareas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

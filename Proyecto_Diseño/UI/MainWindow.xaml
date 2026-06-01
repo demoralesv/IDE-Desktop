@@ -33,5 +33,6 @@
         <RichTextBox x:Name="CommandTerminal" Grid.ColumnSpan="3" Grid.Row="2" PreviewKeyDown="CmdKeys" Margin="14,0,6,43" Height="37" VerticalAlignment="Bottom"/>
         <Button x:Name="GitButton" Grid.Column="2" Content="Git" Margin="198,0,7,10" Grid.Row="2" Click="GitWindow" Height="22" VerticalAlignment="Bottom"/>
         <Button x:Name="New_File" Grid.Column="1" Content="archivo nuevo" HorizontalAlignment="Left" Margin="190,3,0,0" VerticalAlignment="Top" Width="88" Height="19" Click="NewFile"/>
+        <Button x:Name="TareasButton" Grid.Column="2" Content="Mis tareas" HorizontalAlignment="Right" Height="19" Margin="0,3,5,0" VerticalAlignment="Top" Width="89" Click="TareaClick"/>
     </Grid>
 </Window>

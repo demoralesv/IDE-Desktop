@@ -20,14 +20,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-public class Estudiante
-{
-    public string cor { get; set; }
-    public string pass { get; set; }
-}
-/// <summary>
-
-
 
 ///
 namespace Proyecto_Diseño
@@ -39,6 +31,7 @@ namespace Proyecto_Diseño
     {
         FileButtons FileManager = new FileButtons();
         TerminalManager TextBoxManager = new TerminalManager();
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -150,6 +143,19 @@ namespace Proyecto_Diseño
             }));
         }
 
+
+        private void TareaClick(object sender, RoutedEventArgs e)
+        {
+            if (ApiService.getInstance().tokeninit())
+            {
+                Mistareas CursosW = new Mistareas();
+                CursosW.Show();
+            }
+            else
+            {
+                MessageBox.Show("Sin sesión iniciada");
+            }
+        }
     }
 }
 

@@ -1,0 +1,30 @@
+﻿<Window x:Class="Proyecto_Diseño.UI.Mistareas"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Proyecto_Diseño.UI"
+        mc:Ignorable="d"
+        Title="Mistareas" Height="450" Width="800">
+    <Grid>
+        <ListBox x:Name="CoursesList" HorizontalAlignment="Left" Height="165" Margin="40,0,0,0" VerticalAlignment="Center" Width="205">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding nombre}" FontWeight="Bold" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding codigo}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <RichTextBox x:Name="TareaDescrip" HorizontalAlignment="Left" Height="153" Margin="467,174,0,0" VerticalAlignment="Top" Width="239">
+        </RichTextBox>
+        <TextBox x:Name="AdjuntoBox" HorizontalAlignment="Left" Margin="467,332,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Height="20" />
+        <TextBox x:Name="DateBox" HorizontalAlignment="Left" Height="20" Margin="467,357,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" RenderTransformOrigin="0.164,-0.303"/>
+        <ComboBox x:Name="Tareascombo" HorizontalAlignment="Left" Height="21" Margin="484,73,0,0" VerticalAlignment="Top" Width="155" ItemsSource="{Binding ElementName=CoursesList, Path=SelectedItem.tareas}" DisplayMemberPath="titulo" SelectionChanged="TareaSelect"/>
+        <Label x:Name="DescriptLabel" Content="Descripción" HorizontalAlignment="Left" Height="25" Margin="462,149,0,0" VerticalAlignment="Top" Width="77"/>
+        <Label x:Name="AdjuntoLabel" Content="Adjunto" HorizontalAlignment="Left" Margin="411,328,0,0" VerticalAlignment="Top"/>
+        <Label Content="Fecha de Entrega" HorizontalAlignment="Left" Height="26" Margin="362,353,0,0" VerticalAlignment="Top" Width="102"/>
+
+    </Grid>
+</Window>

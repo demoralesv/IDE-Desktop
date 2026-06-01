@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Crypto.Macs;
+using Proyecto_Diseño.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,18 +31,18 @@ namespace Proyecto_Diseño
         //Button create account
         private async void CrearCuentaB_Click(object sender, RoutedEventArgs e)
         {
-  
+            CreateAccount CreateW = new CreateAccount();
+            CreateW.Show();
         }
 
         private async void Iniciar_Sesión_Click(object sender, RoutedEventArgs e)
         {
             var cor = Correo.Text;
             var pass = Password.Text;
-            var Api = new ApiService();
+            ApiService Api = ApiService.getInstance();
             var result = Api.PostUser(cor, pass);
-            var json = await result;
-            //JArray data = JArray.Parse(json);
-            MessageBox.Show(json);
+            string Messageresult = await result;
+            MessageBox.Show(Messageresult);
         }
     }
 }

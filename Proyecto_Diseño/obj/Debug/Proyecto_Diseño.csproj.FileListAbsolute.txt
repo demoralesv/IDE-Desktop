@@ -110,3 +110,7 @@ C:\Diseño\Git\Proyecto_Diseño\obj\Debug\Proyecto_Diseño.csproj.CoreCompileInp
 C:\Diseño\Git\Proyecto_Diseño\obj\Debug\Proyecto.F0536F2B.Up2Date
 C:\Diseño\Git\Proyecto_Diseño\obj\Debug\Proyecto_Diseño.exe
 C:\Diseño\Git\Proyecto_Diseño\obj\Debug\Proyecto_Diseño.pdb
+C:\Diseño\Git\Proyecto_Diseño\obj\Debug\UI\CreateAccount.g.cs
+C:\Diseño\Git\Proyecto_Diseño\obj\Debug\UI\CreateAccount.baml
+C:\Diseño\Git\Proyecto_Diseño\obj\Debug\UI\Mistareas.g.cs
+C:\Diseño\Git\Proyecto_Diseño\obj\Debug\UI\Mistareas.baml

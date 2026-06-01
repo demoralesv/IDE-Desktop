@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Diseño\Proyecto_Diseño\Proyecto_Diseño\obj\Debug\
+C:\Diseño\Git\Proyecto_Diseño\obj\Debug\
 Proyecto_Diseño
 none
 false
 DEBUG;TRACE
-C:\Diseño\Proyecto_Diseño\Proyecto_Diseño\App\App.xaml
-31718561434
+C:\Diseño\Git\Proyecto_Diseño\App\App.xaml
+5891455118
 
-12-104160143
-361293264914
-UI\GitWindow.xaml;UI\LoginWindow.xaml;UI\MainWindow.xaml;
+15-913995206
+361068461689
+UI\CreateAccount.xaml;UI\GitWindow.xaml;UI\LoginWindow.xaml;UI\MainWindow.xaml;UI\Mistareas.xaml;
 
 True
 

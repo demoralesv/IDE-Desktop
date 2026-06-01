@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Diseño\Git\Proyecto_Diseño\App\App.xaml
-31718561434
+5891455118
 
-111977928475
+141168093412
 361068461689
-UI\GitWindow.xaml;UI\LoginWindow.xaml;UI\MainWindow.xaml;
+UI\CreateAccount.xaml;UI\GitWindow.xaml;UI\LoginWindow.xaml;UI\MainWindow.xaml;UI\Mistareas.xaml;
 
 False
 
