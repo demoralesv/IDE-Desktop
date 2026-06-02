@@ -37,7 +37,7 @@ namespace Proyecto_Diseño.UI
                 string Messageresult = await result;
                 MessageBox.Show(Messageresult);
             }
-            catch {
+            catch{
                 MessageBox.Show("Ocurrió un error conectando con el server. Porfavor intente de nuevo");
             }
         }

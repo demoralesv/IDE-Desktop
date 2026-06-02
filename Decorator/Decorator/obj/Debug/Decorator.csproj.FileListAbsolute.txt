@@ -1,0 +1,15 @@
+C:\Diseño\TareaDeco\Decorator\bin\Debug\Decorator.exe.config
+C:\Diseño\TareaDeco\Decorator\bin\Debug\Decorator.exe
+C:\Diseño\TareaDeco\Decorator\bin\Debug\Decorator.pdb
+C:\Diseño\TareaDeco\Decorator\obj\Debug\Decorator.csproj.AssemblyReference.cache
+C:\Diseño\TareaDeco\Decorator\obj\Debug\MainWindow.g.cs
+C:\Diseño\TareaDeco\Decorator\obj\Debug\App.g.cs
+C:\Diseño\TareaDeco\Decorator\obj\Debug\Decorator_MarkupCompile.cache
+C:\Diseño\TareaDeco\Decorator\obj\Debug\Decorator_MarkupCompile.lref
+C:\Diseño\TareaDeco\Decorator\obj\Debug\MainWindow.baml
+C:\Diseño\TareaDeco\Decorator\obj\Debug\Decorator.g.resources
+C:\Diseño\TareaDeco\Decorator\obj\Debug\Decorator.Properties.Resources.resources
+C:\Diseño\TareaDeco\Decorator\obj\Debug\Decorator.csproj.GenerateResource.cache
+C:\Diseño\TareaDeco\Decorator\obj\Debug\Decorator.csproj.CoreCompileInputs.cache
+C:\Diseño\TareaDeco\Decorator\obj\Debug\Decorator.exe
+C:\Diseño\TareaDeco\Decorator\obj\Debug\Decorator.pdb
