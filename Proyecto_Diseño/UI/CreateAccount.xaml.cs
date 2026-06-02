@@ -26,14 +26,21 @@ namespace Proyecto_Diseño.UI
 
         private async void CreateUserButton(object sender, RoutedEventArgs e)
         {
-            string cor = Correobox.Text;
-            string pass = PassBox.Text;
-            string name = NameBox.Text;
-            string ape = ApellidoBox.Text;
-            ApiService Api = ApiService.getInstance();
-            var result = Api.PostCreateUser(name, ape, cor, pass);
-            string Messageresult = await result;
-            MessageBox.Show(Messageresult);
+            try
+            {
+                string cor = Correobox.Text;
+                string pass = PassBox.Text;
+                string name = NameBox.Text;
+                string ape = ApellidoBox.Text;
+                ApiService Api = ApiService.getInstance();
+                var result = Api.PostCreateUser(name, ape, cor, pass);
+                string Messageresult = await result;
+                MessageBox.Show(Messageresult);
+            }
+            catch {
+                MessageBox.Show("Ocurrió un error conectando con el server. Porfavor intente de nuevo");
+
+            }
         }
     }
 }

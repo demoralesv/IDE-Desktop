@@ -141,7 +141,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Logic\FileButtons.cs" />
+    <Compile Include="Logic\Scripts.cs" />
     <Compile Include="Net\HTTPnet.cs" />
     <Compile Include="Terminal\terminal.cs" />
     <Compile Include="UI\CreateAccount.xaml.cs">

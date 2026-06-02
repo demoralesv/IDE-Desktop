@@ -29,7 +29,7 @@ namespace Proyecto_Diseño
     /// </summary>
     public partial class MainWindow : Window
     {
-        FileButtons FileManager = new FileButtons();
+        Script script;
         TerminalManager TextBoxManager = new TerminalManager();
         
         public MainWindow()
@@ -51,17 +51,28 @@ namespace Proyecto_Diseño
         //Open Doc Button
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (FileManager.OpenDoc())
+            OpenFileDialog file = new OpenFileDialog();
+            file.Filter = "py files (*.py)|*.py|All files (*.*)|*.*";
+            bool? success = file.ShowDialog();
+            if (success == true)
             {
+                SignedScript prueba = new SignedScript(new Script(file.FileName));
+                if (!prueba.verificarfirma()) {
+                    MessageBox.Show("El archivo no esta firmado por el IDE");
+                    return;
+                }
+                script = new Script(file.FileName);
                 IDE.Document.Blocks.Clear();
                 IDE.IsUndoEnabled = false;
-                IDE.AppendText(FileManager.GetCurrentFileContent());
+                IDE.AppendText(script.GetCurrentFileContent());
                 IDE.IsUndoEnabled = true;
                 if (TextBoxManager.ProcessRunning())
                 {
                     TextBoxManager.StopProcess();
                 }
+                return;
             }
+            return;
         }
         //Login Button
         private async void Button_Click_1(object sender, RoutedEventArgs e)
@@ -76,10 +87,27 @@ namespace Proyecto_Diseño
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             TextRange textstring = new TextRange(IDE.Document.ContentStart, IDE.Document.ContentEnd);
-            FileManager.SaveDoc(textstring.Text);
+            if (script == null)
+            {
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.Filter = "py files (*.py)|*.py|All files (*.*)|*.*";
+                bool? success = saveFileDialog1.ShowDialog();
+                if (success == true)
+                {
+                    File.WriteAllText(saveFileDialog1.FileName, textstring.Text);
+                    script = new Script(saveFileDialog1.FileName);
+                    SignedScript script1 = new SignedScript(this.script);
+                    script1.SignScript();
+                    return;
+                }
+                return;
+            }
+            SignedScript script2 = new SignedScript(this.script);
+            script2.SignScript();
+            script2.SaveContent(textstring.Text);
         }
 
-
+            
         private void IDEKey(object sender, KeyEventArgs e)
         {
             if (Keyboard.Modifiers == ModifierKeys.Control && (e.Key == System.Windows.Input.Key.C || e.Key == System.Windows.Input.Key.V))
@@ -92,7 +120,7 @@ namespace Proyecto_Diseño
         private void RunScript(object sender, RoutedEventArgs e)
         {
             if (TextBoxManager.ProcessRunning())return;
-            TextBoxManager.PyCommand(FileManager.getFilePath(), false);
+            TextBoxManager.PyCommand(script.GetPath(), false);
         }
 
         private void CmdKeys(object sender, KeyEventArgs e)
@@ -124,14 +152,20 @@ namespace Proyecto_Diseño
 
         private void NewFile(object sender, RoutedEventArgs e)
         {
-            if (FileManager.NewFile())
+            TextRange textstring = new TextRange(IDE.Document.ContentStart, IDE.Document.ContentEnd);
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "py files (*.py)|*.py|All files (*.*)|*.*";
+            bool? success = saveFileDialog1.ShowDialog();
+            if (success == true)
             {
                 IDE.Document.Blocks.Clear();
                 if (TextBoxManager.ProcessRunning())
                 {
                     TextBoxManager.StopProcess();
                 }
-            }
+                using (File.Create(saveFileDialog1.FileName)){}
+                script = new Script(saveFileDialog1.FileName);
+             }
         }
 
         private void procesoutputevent(string output)
