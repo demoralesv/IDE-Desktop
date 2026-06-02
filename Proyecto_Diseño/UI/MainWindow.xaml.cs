@@ -10,6 +10,7 @@ using System.Net.Http.Headers;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -113,6 +114,7 @@ namespace Proyecto_Diseño
             if (Keyboard.Modifiers == ModifierKeys.Control && (e.Key == System.Windows.Input.Key.C || e.Key == System.Windows.Input.Key.V))
             {
                 e.Handled = true;
+                return;
             }
         }
 
@@ -190,6 +192,49 @@ namespace Proyecto_Diseño
                 MessageBox.Show("Sin sesión iniciada");
             }
         }
+        //TODO: falta implementarlo de manera que el texto cambie constantemente segun lo que se escriba
+        //Tambien falta arreglar o averiguar porque el colorear borra todos los campos en blanco
+        private void ApplyColor()
+        {
+            TextRange textstring = new TextRange(IDE.Document.ContentStart, IDE.Document.ContentEnd);
+            ScriptFormat script = new ScriptFormat(this.script);
+            string TF = script.GetFormattedText();
+            IDE.Document.Blocks.Clear();
+            IDE.IsUndoEnabled = false;
+            string pattern = @"(\[[YGPB]\]|\[/[YGBP]\])";
+            string[] parts = Regex.Split(TF, pattern);
+            Paragraph Newtext = new Paragraph();
+            Brush color = Brushes.Black;
+            for (int i = 0; i < parts.Length; i++)
+            {
+                string part = parts[i];
+                if (part == "[B]")
+                {
+                    color = Brushes.Blue; continue;
+                }
+                if (part == "[Y]")
+                {
+                    color = Brushes.YellowGreen; continue;
+                }
+                if (part == "[P]")
+                {
+                    color = Brushes.DeepPink; continue;
+                }
+                if (part == "[G]")
+                {
+                    color = Brushes.Green; continue;
+                }
+                if (part == "[/Y]" || part == "[/B]" || part == "[/P]" || part == "[/G]")
+                {
+                    color = Brushes.Black; continue;
+                }
+                Newtext.Inlines.Add(new Run(part) { Foreground = color });
+            }
+            IDE.Document.Blocks.Add(Newtext);
+            IDE.IsUndoEnabled = true;
+            textstring = new TextRange(IDE.Document.ContentStart, IDE.Document.ContentEnd);
+        }
+
     }
 }
 

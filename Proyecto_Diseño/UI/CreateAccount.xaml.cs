@@ -39,7 +39,6 @@ namespace Proyecto_Diseño.UI
             }
             catch {
                 MessageBox.Show("Ocurrió un error conectando con el server. Porfavor intente de nuevo");
-
             }
         }
     }

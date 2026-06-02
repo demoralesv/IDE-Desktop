@@ -40,7 +40,7 @@ namespace Proyecto_Diseño
         }
         public void SaveContent(string content)
         {
-            using (StreamWriter writer = new StreamWriter(path))//saves the content in the file
+            using (StreamWriter writer = new StreamWriter(path))
             {
                 writer.Write(content);
             }
