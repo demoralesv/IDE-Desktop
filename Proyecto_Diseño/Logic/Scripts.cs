@@ -27,11 +27,17 @@ namespace Proyecto_Diseño
     {
         private string scriptcontent;
         private string path;
+        public string filename { get; private set; }
 
         public Script(string path)
         {
             this.path = path;
-            this.scriptcontent = File.ReadAllText(path);
+            if (!path.Equals(""))
+            {
+                this.scriptcontent = File.ReadAllText(path);
+            }
+            else { this.scriptcontent = ""; }
+            filename = Path.GetFileName(path);
         }
 
         public string GetCurrentFileContent()
@@ -50,6 +56,15 @@ namespace Proyecto_Diseño
         public string GetPath()
         {
             return path;
+        }
+
+        public void SetPath(string newpath)
+        {
+            path = newpath;
+        }
+        public void SetContent(string newcontent)
+        {
+            scriptcontent = newcontent;
         }
     }
     internal class ScriptDecorator : ScriptInt

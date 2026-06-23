@@ -53,11 +53,20 @@ namespace Proyecto_Diseño.UI
 
         private void TareaSelect(object sender, SelectionChangedEventArgs e)
         {
-            TareaInfo tarea = (TareaInfo)Tareascombo.SelectedItem;
-            TareaDescrip.Document.Blocks.Clear();
-            TareaDescrip.Document.Blocks.Add(new Paragraph(new Run(tarea.descripcion)));
-            AdjuntoBox.Text = tarea.adjunto;
-            DateBox.Text = tarea.fechaEntrega;
+            try
+            {
+                TareaInfo tarea = (TareaInfo)Tareascombo.SelectedItem;
+                TareaDescrip.Document.Blocks.Clear();
+                if (tarea != null)
+                {
+                    TareaDescrip.Document.Blocks.Add(new Paragraph(new Run(tarea.descripcion)));
+                    AdjuntoBox.Text = tarea.adjunto;
+                    DateBox.Text = tarea.fechaEntrega;
+                }
+            }catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

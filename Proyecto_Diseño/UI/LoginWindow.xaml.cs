@@ -38,7 +38,7 @@ namespace Proyecto_Diseño
         private async void Iniciar_Sesión_Click(object sender, RoutedEventArgs e)
         {
             var cor = Correo.Text;
-            var pass = Password.Text;
+            var pass = Passwordbox.Password;
             ApiService Api = ApiService.getInstance();
             var result = Api.PostUser(cor, pass);
             string Messageresult = await result;
