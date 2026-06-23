@@ -5,13 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Proyecto_Diseño"
         mc:Ignorable="d"
-        Title="MainWindow" Height="655" Width="800">
+        Title="MainWindow" Height="655" Width="950">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="623*"/>
+            <RowDefinition Height="11*"/>
+        </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
 
         </Grid.ColumnDefinitions>
-        <RichTextBox x:Name="IDE" PreviewKeyDown="IDEKey" BorderBrush="Black" AcceptsTab="True" Margin="15,48,5,180" VerticalScrollBarVisibility="Visible" TextChanged="IDETextChange">
+        <RichTextBox x:Name="IDE" PreviewKeyDown="IDEKey" BorderBrush="Black" AcceptsTab="True" Margin="139,48,10,169" VerticalScrollBarVisibility="Visible" TextChanged="IDETextChange" Grid.Row="1">
             <RichTextBox.Resources>
                 <Style TargetType="{x:Type Paragraph}">
                     <Setter Property="LineHeight" Value="10"></Setter>
@@ -22,22 +27,30 @@
                 <Paragraph/>
             </FlowDocument>
         </RichTextBox>
-        <Button x:Name="LoginButton" Content="Iniciar sesión" Margin="15,3,0,0" VerticalAlignment="Top" Height="19" Click="Button_Click_1" HorizontalAlignment="Left" Width="72"/>
-        <Button x:Name="OpenDoc" Content="Abrir documento" HorizontalAlignment="Left" Margin="92,3,0,0" Click="Button_Click" Width="94" Height="19" VerticalAlignment="Top"/>
-        <Button x:Name="SaveButton" Content="Guardar" Margin="191,3,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.48,-0.223" Height="19" Click="SaveButton_Click" HorizontalAlignment="Left" Width="54"/>
-        <RichTextBox x:Name="LogTerminal" BorderBrush="Black" IsReadOnly="True" VerticalScrollBarVisibility="Auto" Margin="14,0,6,85" Height="90" VerticalAlignment="Bottom"/>
-        <Button Content="Ejecutar " Margin="14,0,0,10" Click="RunScript" HorizontalAlignment="Left" Width="53" Height="23" VerticalAlignment="Bottom"/>
-        <RichTextBox x:Name="CommandTerminal" Grid.ColumnSpan="2" Grid.Row="2" PreviewKeyDown="CmdKeys" Margin="14,0,6,43" Height="37" VerticalAlignment="Bottom"/>
-        <Button x:Name="GitButton" Content="Git" Margin="0,0,7,10" Click="GitWindow" HorizontalAlignment="Right" Width="65" Height="22" VerticalAlignment="Bottom"/>
-        <Button x:Name="New_File" Content="archivo nuevo" HorizontalAlignment="Left" Margin="250,3,0,0" VerticalAlignment="Top" Width="88" Height="19" Click="NewFile"/>
-        <Button x:Name="TareasButton" Grid.Column="1" Content="Mis tareas" HorizontalAlignment="Right" Height="19" Margin="0,3,5,0" VerticalAlignment="Top" Width="89" Click="TareaClick"/>
-        <TabControl x:Name="Scriptstab" HorizontalAlignment="Left" Height="21" Margin="14,27,0,0" VerticalAlignment="Top" Width="779" SelectionChanged="ScriptTabChange" >
+        <Button x:Name="LoginButton" Content="Iniciar sesión" Margin="0,3,372,0" VerticalAlignment="Top" Height="19" Click="Button_Click_1" HorizontalAlignment="Right" Width="72" Grid.RowSpan="2"/>
+        <Button x:Name="OpenDoc" Content="Abrir documento" Margin="0,3,273,0" Click="Button_Click" Height="19" VerticalAlignment="Top" Grid.RowSpan="2" HorizontalAlignment="Right" Width="94"/>
+        <Button x:Name="SaveButton" Content="Guardar" Margin="0,3,214,0" RenderTransformOrigin="0.48,-0.223" Click="SaveButton_Click" HorizontalAlignment="Right" Width="54" Grid.RowSpan="2" Height="19" VerticalAlignment="Top"/>
+        <RichTextBox x:Name="LogTerminal" BorderBrush="Black" IsReadOnly="True" VerticalScrollBarVisibility="Auto" Margin="139,0,10,74" Height="90" VerticalAlignment="Bottom" Grid.Row="1"/>
+        <Button Content="Ejecutar " Margin="14,0,0,10" Click="RunScript" HorizontalAlignment="Left" Width="53" Height="23" VerticalAlignment="Bottom" Grid.Row="1" Grid.RowSpan="2"/>
+        <RichTextBox x:Name="CommandTerminal" Grid.Row="1" PreviewKeyDown="CmdKeys" Margin="139,0,6,32" Height="37" VerticalAlignment="Bottom"/>
+        <Button x:Name="GitButton" Content="Git" Margin="0,0,7,10" Click="GitWindow" HorizontalAlignment="Right" Width="65" Height="22" VerticalAlignment="Bottom" Grid.Row="1" Grid.RowSpan="2"/>
+        <Button x:Name="New_File" Content="archivo nuevo" HorizontalAlignment="Right" Margin="0,3,121,0" VerticalAlignment="Top" Width="88" Height="19" Click="NewFile" Grid.RowSpan="2"/>
+        <Button x:Name="TareasButton" Content="Mis tareas" HorizontalAlignment="Right" Height="19" Margin="0,3,5,0" VerticalAlignment="Top" Width="89" Click="TareaClick" Grid.RowSpan="2"/>
+        <TabControl x:Name="Scriptstab" HorizontalAlignment="Left" Height="21" Margin="139,27,0,0" VerticalAlignment="Top" Width="801" SelectionChanged="ScriptTabChange" Grid.Row="1" >
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding filename}"/>
                 </DataTemplate>
             </TabControl.ItemTemplate>
         </TabControl>
-        <Button x:Name="ProjectBotton" Content="Proyecto nuevo" HorizontalAlignment="Left" Height="19" Margin="599,3,0,0" VerticalAlignment="Top" Width="88" Click="NewProject"/>
+        <Button x:Name="ProjectBotton" Content="Abrir proyecto" HorizontalAlignment="Left" Margin="14,4,0,0" Width="88" Click="NewProject" Height="19" VerticalAlignment="Top" Grid.RowSpan="2"/>
+        <Button x:Name="RunProject" Content="Run" HorizontalAlignment="Left" Margin="14,23,0,0" VerticalAlignment="Top" Width="42" Grid.Row="1"/>
+        <TreeView x:Name="Project" Margin="4,48,0,169" Grid.Row="1" ItemsSource="{Binding ProjectTree}" HorizontalAlignment="Left" Width="130" SelectedItemChanged="OpenProjectScript">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding folder}">
+                    <TextBlock Text="{Binding filename}"/>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
     </Grid>
 </Window>

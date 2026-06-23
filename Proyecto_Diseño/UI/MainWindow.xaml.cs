@@ -21,13 +21,14 @@ namespace Proyecto_Diseño
     public partial class MainWindow : Window
     {
         Script script;
+        Project project;
         ObservableCollection<Script> scripts = new ObservableCollection<Script>();
         TerminalManager TextBoxManager = new TerminalManager();
         bool changed = false;
         LoginWindow LoginW;
         Mistareas CursosW;
+        ProjectFiles ProjectTree;
         String copybuffer = "";
-        int[] RS = { 1, 2, 3 };
         
 
         public MainWindow()
@@ -62,17 +63,27 @@ namespace Proyecto_Diseño
                     MessageBox.Show("El archivo no esta firmado por el IDE");
                     return;
                 }
-                script = new Script(file.FileName);
+                //Checking if the script is already in the IDE
+                bool scriptopen = false;
+                foreach (var Existingscript in scripts) {
+                    if (Existingscript.GetPath().Equals(prueba.GetPath()))
+                    {
+                        scriptopen = true;
+                        script = Existingscript;      
+                        break;
+                    }
+                }
+                if (!scriptopen)
+                {
+                    script = new Script(file.FileName);
+                    scripts.Add(script);
+                }
+                //////////////////////
+                //process
                 IDE.Document.Blocks.Clear();
                 IDE.IsUndoEnabled = false;
                 IDE.AppendText(script.GetCurrentFileContent());
                 IDE.IsUndoEnabled = true;
-                if (TextBoxManager.ProcessRunning())
-                {
-                    TextBoxManager.StopProcess();
-                }
-
-                scripts.Add(script);
                 Scriptstab.SelectedItem = script;
                 return;
             }
@@ -105,14 +116,15 @@ namespace Proyecto_Diseño
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 saveFileDialog1.Filter = "py files (*.py)|*.py|All files (*.*)|*.*";
                 bool? success = saveFileDialog1.ShowDialog();
-                if (success == true)
+                if (success != true) return;
+                script.SetPath(saveFileDialog1.FileName);
+                if (project != null)
                 {
-                    File.WriteAllText(saveFileDialog1.FileName, textstring.Text);
-                    script.SetPath(saveFileDialog1.FileName);
-                    SignedScript script1 = new SignedScript(this.script);
-                    script1.SignScript();
+                    Project.Items.Clear();
+                    ProjectFiles ProjectTree = project.AllProjectFiles(project.projpath());
+                    Project.Items.Add(BuildProjectTree(ProjectTree));
                 }
-                return;
+                Scriptstab.SelectedItem = script;
             }
             SignedScript script2 = new SignedScript(this.script);
             script2.SignScript();
@@ -139,7 +151,7 @@ namespace Proyecto_Diseño
 
         private void RunScript(object sender, RoutedEventArgs e)
         {
-            if (TextBoxManager.ProcessRunning())return;
+            if (TextBoxManager.ProcessRunning()) TextBoxManager.StopProcess();
             TextBoxManager.PyCommand(script.GetPath(), false);
         }
 
@@ -179,16 +191,20 @@ namespace Proyecto_Diseño
             if (success == true)
             {
                 IDE.Document.Blocks.Clear();
-                if (TextBoxManager.ProcessRunning())
-                {
-                    TextBoxManager.StopProcess();
-                }
+                //Process
                 using (File.Create(saveFileDialog1.FileName)){}
                 script = new Script(saveFileDialog1.FileName);
                 scripts.Add(script);
                 Scriptstab.SelectedItem = script;
                 SignedScript script2 = new SignedScript(this.script);
                 script2.SignScript();
+
+                if (project != null)
+                {
+                    Project.Items.Clear();
+                    ProjectFiles ProjectTree = project.AllProjectFiles(project.projpath());
+                    Project.Items.Add(BuildProjectTree(ProjectTree));
+                }
             }
         }
 
@@ -330,8 +346,68 @@ namespace Proyecto_Diseño
 
         private void NewProject(object sender, RoutedEventArgs e)
         {
+            using (var newProject = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                var result = newProject.ShowDialog();
+                if(result == System.Windows.Forms.DialogResult.OK)
+                {
+                    project = new Project(newProject.SelectedPath);
+                    ProjectFiles ProjectTree = project.AllProjectFiles(project.projpath());
+                    Project.Items.Add(BuildProjectTree(ProjectTree));
+                }
+                else
+                {
+                    MessageBox.Show("Sin directorio especificado");
+                }
+            }
+        }
+        private TreeViewItem BuildProjectTree(ProjectFiles pf)
+        {
+            TreeViewItem Treeitem = new TreeViewItem { Header = pf.filename, Tag = pf};
+            foreach (ProjectFiles pf2 in pf.folder)
+            {
+                Treeitem.Items.Add(BuildProjectTree(pf2));
+            }
+            return Treeitem;
+        }
 
-        
+        //obtener el script actual 
+        private void OpenProjectScript(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            TreeView TV = (TreeView)sender;
+            if (TV.SelectedItem is TreeViewItem TVitem)
+            {
+                ProjectFiles file = TVitem.Tag as ProjectFiles;
+                string fullpath = file.path + "\\" + file.filename;
+                SignedScript prueba = new SignedScript(new Script(fullpath));
+                if (!prueba.verificarfirma())
+                {
+                    MessageBox.Show("El archivo no esta firmado por el IDE");
+                    return;
+                }
+
+                bool scriptopen = false;
+                foreach (var Existingscript in scripts)
+                {
+                    if (Existingscript.GetPath().Equals(prueba.GetPath()))
+                    {
+                        scriptopen = true;
+                        script = Existingscript;
+                        break;
+                    }
+                }
+                if (!scriptopen)
+                {
+                    script = new Script(fullpath);
+                    scripts.Add(script);
+                }
+                IDE.Document.Blocks.Clear();
+                IDE.IsUndoEnabled = false;
+                IDE.AppendText(script.GetCurrentFileContent());
+                IDE.IsUndoEnabled = true;
+                Scriptstab.SelectedItem = script;
+                return;
+            }
         }
     }
    
