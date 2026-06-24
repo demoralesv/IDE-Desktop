@@ -26,19 +26,51 @@ namespace Proyecto_Diseño.UI
 
         private async void CreateUserButton(object sender, RoutedEventArgs e)
         {
+            string cor = Correobox.Text.Trim();
+            string pass = PassBox.Text;
+            string name = NameBox.Text.Trim();
+            string ape = ApellidoBox.Text.Trim();
+
+            CreateAccountMessage.Text = "";
+
+            if (string.IsNullOrWhiteSpace(name) ||
+                string.IsNullOrWhiteSpace(cor) ||
+                string.IsNullOrWhiteSpace(pass))
+            {
+                CreateAccountMessage.Text = "Nombre, correo y contraseña son obligatorios.";
+                CreateAccountMessage.Foreground = Brushes.Firebrick;
+                return;
+            }
+
+            RegistrarButton.IsEnabled = false;
+
             try
             {
-                string cor = Correobox.Text;
-                string pass = PassBox.Text;
-                string name = NameBox.Text;
-                string ape = ApellidoBox.Text;
                 ApiService Api = ApiService.getInstance();
-                var result = Api.PostCreateUser(name, ape, cor, pass);
-                string Messageresult = await result;
-                MessageBox.Show(Messageresult);
+                string Messageresult = await Api.PostCreateUser(name, ape, cor, pass);
+
+                CreateAccountMessage.Text = Messageresult;
+
+                if (Messageresult.ToLower().Contains("correcto") ||
+                    Messageresult.ToLower().Contains("exitoso") ||
+                    Messageresult.ToLower().Contains("creado") ||
+                    Messageresult.ToLower().Contains("registrado"))
+                {
+                    CreateAccountMessage.Foreground = Brushes.ForestGreen;
+                }
+                else
+                {
+                    CreateAccountMessage.Foreground = Brushes.Firebrick;
+                }
             }
-            catch{
-                MessageBox.Show("Ocurrió un error conectando con el server. Porfavor intente de nuevo");
+            catch
+            {
+                CreateAccountMessage.Text = "Ocurrió un error conectando con el server. Por favor intente de nuevo.";
+                CreateAccountMessage.Foreground = Brushes.Firebrick;
+            }
+            finally
+            {
+                RegistrarButton.IsEnabled = true;
             }
         }
     }
