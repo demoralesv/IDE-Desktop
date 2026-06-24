@@ -1,9 +1,12 @@
 ﻿using Google.Protobuf.WellKnownTypes;
+using Microsoft.Win32;
 using Proyecto_Diseño.Net;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,12 +49,8 @@ namespace Proyecto_Diseño.UI
             }
             this.IsEnabled=true;
         }
-        private async void Prueba_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
-
-        private void TareaSelect(object sender, SelectionChangedEventArgs e)
+        private async void TareaSelect(object sender, SelectionChangedEventArgs e)
         {
             try
             {
@@ -62,11 +61,41 @@ namespace Proyecto_Diseño.UI
                     TareaDescrip.Document.Blocks.Add(new Paragraph(new Run(tarea.descripcion)));
                     AdjuntoBox.Text = tarea.adjunto;
                     DateBox.Text = tarea.fechaEntrega;
+                    var Api = ApiService.getInstance();
+                    var result = Api.GetAssignmentGroup(tarea.ID);
+                    ResultCourses jsonresult = await result;
+                    if (jsonresult.data != null)
+                    {
+                        Groups.ItemsSource = jsonresult.data.group.members;
+                    }
                 }
             }catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private async void BotonPruebaClick(object sender, RoutedEventArgs e)
+        {
+            
+            TareaInfo tarea = (TareaInfo)Tareascombo.SelectedItem;
+            if (tarea != null)
+            {
+                OpenFileDialog file = new OpenFileDialog();
+                bool? success = file.ShowDialog();
+                if (success == true)
+                {
+                    var Api = ApiService.getInstance();
+                    var result = Api.submitAssignment(file.FileName, tarea.ID);
+                    var jsonresult = await result;
+                    MessageBox.Show(jsonresult);
+                }
+            }
+        }
+
+        private void SubmitWork(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

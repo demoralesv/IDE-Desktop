@@ -37,7 +37,7 @@ namespace Proyecto_Diseño.Net
 
     public class TareaInfo
     {
-        public int id { get; set; }
+        public int ID { get; set; }
         public string titulo { get; set; }
         public string descripcion { get; set; }
         public string adjunto { get; set; }
@@ -61,4 +61,26 @@ namespace Proyecto_Diseño.Net
     {
         public string token { get; set; }
     }
+
+ 
+    public class ResultCourses
+    {
+        public bool success { get; set; }
+        public string message { get; set; }
+        public datagroupmessage data { get; set; }
+    }
+
+    public class datagroupmessage
+    {
+        public TareaInfo assignment { get; set; }
+        public groupdata  group{ get; set; }
+    }
+    public class groupdata
+    {
+        public int ID { get; set; }
+        public int numero { get; set; }
+        public List<Estudiante> members { get; set; }
+
+    }
+
 }

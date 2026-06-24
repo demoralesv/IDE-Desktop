@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Proyecto_Diseño.UI"
         mc:Ignorable="d"
-        Title="GitWindow" Height="443" Width="800">
-    <Grid Margin="0,0,0,137">
-        <RichTextBox x:Name="LogGit" Margin="10,37,10,68" IsReadOnly="True" VerticalScrollBarVisibility="Auto">
+        Title="GitWindow" Height="412" Width="800">
+    <Grid Margin="0,0,0,-6">
+        <RichTextBox x:Name="LogGit" Margin="10,33,10,220" IsReadOnly="True" VerticalScrollBarVisibility="Auto">
             <RichTextBox.Resources>
                 <Style TargetType="{x:Type Paragraph}">
                     <Setter Property="LineHeight" Value="10"></Setter>
@@ -15,6 +15,16 @@
                 </Style>
             </RichTextBox.Resources>
         </RichTextBox>
-        <RichTextBox x:Name="GitTerminal" HorizontalAlignment="Center" Height="31" Margin="0,236,0,0" VerticalAlignment="Top" Width="763" PreviewKeyDown="GitCMD"/>
+        <RichTextBox x:Name="GitTerminal" HorizontalAlignment="Center" Height="31" Margin="0,187,0,0" VerticalAlignment="Top" Width="780" PreviewKeyDown="GitCMD"/>
+        <Button x:Name="SetDir" Content="Init Directorio" HorizontalAlignment="Left" Height="24" Margin="10,256,0,0" VerticalAlignment="Top" Width="88" Click="ChangeDir"/>
+        <Button x:Name="Commit" Content="Commit" HorizontalAlignment="Left" Height="25" Margin="10,285,0,0" VerticalAlignment="Top" Width="88" Click="CommitGit"/>
+        <Button x:Name="pull" Content="pull" HorizontalAlignment="Left" Margin="10,315,0,0" VerticalAlignment="Top" Width="88" Height="25" Click="Gitpull"/>
+        <Button x:Name="push" Content="push" HorizontalAlignment="Left" Margin="10,345,0,0" VerticalAlignment="Top" Height="25" Width="88"/>
+        <TextBox x:Name="branch" HorizontalAlignment="Left" Margin="651,255,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="88" Height="25"/>
+        <Label x:Name="BranchLabel" Content="Rama de trabajo:" HorizontalAlignment="Left" Height="25" Margin="537,255,0,0" VerticalAlignment="Top" Width="109"/>
+        <TextBox x:Name="CommitMessage" HorizontalAlignment="Left" Margin="103,285,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="234" Height="25"/>
+        <Button x:Name="CloneRepo" Content="Clone Rep" HorizontalAlignment="Left" Height="25" Margin="10,227,0,0" VerticalAlignment="Top" Width="88" Click="CloreGit"/>
+        <TextBox x:Name="Repoclone" HorizontalAlignment="Left" Height="25" Margin="103,227,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="234"/>
+
     </Grid>
 </Window>

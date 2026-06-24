@@ -90,10 +90,7 @@ namespace Proyecto_Diseño.UI
         {
             pyprogram.StandardInput.Write(input + "\n");
         }
-        public string Gitcommand(String command)
-        {
-            return command;
-        }
+
         public bool ProcessRunning()
         {
             return processactive;

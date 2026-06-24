@@ -2,6 +2,7 @@
 using Proyecto_Diseño.Net;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Management.Instrumentation;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -23,6 +24,7 @@ public class ApiService
         httpClient.BaseAddress = new Uri("https://sied.me/api/");
         httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", "Kx7xLw0VPtZUqjDQwO0jFEKGfHQwdGaprPFFMPvFY6Ih5Ivg6BwfbVehxoWaTLsV4w788PIKIqFrGttftHFJ9fDZS415BQB7vrAAed1EoPqGyX3xXkkdUPyihP9AI7YqRK1kDpKtxB09VV1zX3sor1orv2k83CZosPIicGIOdAjkEArBTokSF9HqQlhu7hgVO8ACxDs");
+        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("multipart/form-data"));
     }
     public static ApiService getInstance()
     {
@@ -102,7 +104,36 @@ public class ApiService
         HttpResponseMessage response = await httpClient.GetAsync("courses");
         string jsonResponse = await response.Content.ReadAsStringAsync();
         Coursesjson result = JsonSerializer.Deserialize<Coursesjson>(jsonResponse);
-         return result.data.courses;
+        return result.data.courses;
+    }
+
+    public async Task<ResultCourses> GetAssignmentGroup(int TaskID)
+    {
+        var jsondata = JsonSerializer.Serialize(token);
+        StringContent jsonContent = new StringContent(jsondata, Encoding.UTF8, "application/json");
+        HttpResponseMessage response = await httpClient.GetAsync($"students/assignments/{TaskID}/group");
+        string jsonResponse = await response.Content.ReadAsStringAsync();
+        ResultCourses result = JsonSerializer.Deserialize<ResultCourses>(jsonResponse);
+        return result;
+    }
+    //TODO check that all .py files are signed
+    public async Task<string> submitAssignment(string Filepath, int TaskID)
+    {
+        try
+        {
+            var FileContent = new MultipartFormDataContent();
+            FileContent.Headers.ContentType.MediaType = "multipart/form-data";
+            Stream fileS = File.OpenRead(Filepath);
+            FileContent.Add(new StreamContent(fileS), "projectFile", Path.GetFileName(Filepath));
+            HttpResponseMessage response = await httpClient.PostAsync($"students/assignments/{TaskID}/submit", FileContent);
+            string jsonResponse = await response.Content.ReadAsStringAsync();
+            //ResultCourses result = JsonSerializer.Deserialize<ResultCourses>(jsonResponse);
+            return jsonResponse;
+        }
+        catch (Exception ex)
+        {
+            return ex.Message;
+        }
     }
     public bool tokeninit()
     {

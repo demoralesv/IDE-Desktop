@@ -134,6 +134,7 @@
     </ApplicationDefinition>
     <Compile Include="Logic\Textboxs.cs" />
     <Compile Include="Net\Models.cs" />
+    <Compile Include="Logic\GitController.cs" />
     <Compile Include="UI\Mistareas.xaml.cs">
       <DependentUpon>Mistareas.xaml</DependentUpon>
     </Compile>
