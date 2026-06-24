@@ -15,13 +15,10 @@
                 </Style>
             </RichTextBox.Resources>
         </RichTextBox>
-        <RichTextBox x:Name="GitTerminal" HorizontalAlignment="Center" Height="31" Margin="0,187,0,0" VerticalAlignment="Top" Width="780" PreviewKeyDown="GitCMD"/>
         <Button x:Name="SetDir" Content="Init Directorio" HorizontalAlignment="Left" Height="24" Margin="10,256,0,0" VerticalAlignment="Top" Width="88" Click="ChangeDir"/>
         <Button x:Name="Commit" Content="Commit" HorizontalAlignment="Left" Height="25" Margin="10,285,0,0" VerticalAlignment="Top" Width="88" Click="CommitGit"/>
         <Button x:Name="pull" Content="pull" HorizontalAlignment="Left" Margin="10,315,0,0" VerticalAlignment="Top" Width="88" Height="25" Click="Gitpull"/>
-        <Button x:Name="push" Content="push" HorizontalAlignment="Left" Margin="10,345,0,0" VerticalAlignment="Top" Height="25" Width="88"/>
-        <TextBox x:Name="branch" HorizontalAlignment="Left" Margin="651,255,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="88" Height="25"/>
-        <Label x:Name="BranchLabel" Content="Rama de trabajo:" HorizontalAlignment="Left" Height="25" Margin="537,255,0,0" VerticalAlignment="Top" Width="109"/>
+        <Button x:Name="push" Content="push" HorizontalAlignment="Left" Margin="10,345,0,0" VerticalAlignment="Top" Height="25" Width="88" Click="pushgit"/>
         <TextBox x:Name="CommitMessage" HorizontalAlignment="Left" Margin="103,285,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="234" Height="25"/>
         <Button x:Name="CloneRepo" Content="Clone Rep" HorizontalAlignment="Left" Height="25" Margin="10,227,0,0" VerticalAlignment="Top" Width="88" Click="CloreGit"/>
         <TextBox x:Name="Repoclone" HorizontalAlignment="Left" Height="25" Margin="103,227,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="234"/>

@@ -26,19 +26,7 @@ namespace Proyecto_Diseño.UI
             InitializeComponent();
         }
 
-        private void GitCMD(object sender, KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-            {
-                TextRange command = new TextRange(GitTerminal.Document.ContentStart, GitTerminal.Document.ContentEnd);
-                LogGit.Document.Blocks.Add(new Paragraph(new Run(">>  " + command.Text)));
-                string result = GitManager.GitCommand(command.Text.Trim('\n', '\r'));
-                
-                LogGit.Document.Blocks.Add(new Paragraph(new Run(result)));
-                LogGit.ScrollToEnd();
-                GitTerminal.Document.Blocks.Clear();
-            }
-        }
+
 
         private void ChangeDir(object sender, RoutedEventArgs e)
         {
@@ -50,7 +38,7 @@ namespace Proyecto_Diseño.UI
                     string gitresult = GitManager.setDirectory(newDir.SelectedPath);
                     LogGit.Document.Blocks.Add(new Paragraph(new Run(gitresult)));
                     LogGit.ScrollToEnd();
-                    GitTerminal.Document.Blocks.Clear();
+
                 }
                 else
                 {
@@ -65,15 +53,15 @@ namespace Proyecto_Diseño.UI
             string result = GitManager.commit(CommitMessage.Text);
             LogGit.Document.Blocks.Add(new Paragraph(new Run(result)));
             LogGit.ScrollToEnd();
-            GitTerminal.Document.Blocks.Clear();
+
         }
 
         private void Gitpull(object sender, RoutedEventArgs e)
         {
-            string result = GitManager.pull(branch.Text);
+            string result = GitManager.pull();
             LogGit.Document.Blocks.Add(new Paragraph(new Run(result)));
             LogGit.ScrollToEnd();
-            GitTerminal.Document.Blocks.Clear();
+
         }
 
         private void CloreGit(object sender, RoutedEventArgs e)
@@ -81,7 +69,20 @@ namespace Proyecto_Diseño.UI
             string result = GitManager.clone(Repoclone.Text);
             LogGit.Document.Blocks.Add(new Paragraph(new Run(result)));
             LogGit.ScrollToEnd();
-            GitTerminal.Document.Blocks.Clear();
+    
+
+            result = GitManager.setorigin(Repoclone.Text);
+            LogGit.Document.Blocks.Add(new Paragraph(new Run(result)));
+            LogGit.ScrollToEnd();
+
+        }
+
+        private void pushgit(object sender, RoutedEventArgs e)
+        {
+            string result = GitManager.push();
+            LogGit.Document.Blocks.Add(new Paragraph(new Run(result)));
+            LogGit.ScrollToEnd();
+
         }
     }
 }

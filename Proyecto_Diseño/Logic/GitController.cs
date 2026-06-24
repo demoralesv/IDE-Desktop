@@ -46,14 +46,21 @@ namespace Proyecto_Diseño.UI
             return GitCommand($"commit -m \"{message}\"");
         } 
 
-        public string pull(string branch)
+        public string pull()
         {
-            return GitCommand("pull origin main");
+            return GitCommand("pull");
         }
-
+        public string setorigin(string repo)
+        {
+            return GitCommand("remote add origin {repo}");
+        }
         public string clone(string repo)
         {
             return GitCommand($"clone {repo}");
+        }
+        public string push()
+        {
+            return GitCommand($"push");
         }
 
     }
