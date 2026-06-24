@@ -5,21 +5,172 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Proyecto_Diseño"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="450" Width="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="433*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="8*"/>
-            <ColumnDefinition Width="259*"/>
-        </Grid.ColumnDefinitions>
-        <TextBox x:Name="Correo" HorizontalAlignment="Left" Height="22" Margin="212,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="328" Grid.Column="1" Grid.Row="1"/>
-        <Label x:Name="LabelCorreo" Content="Correo" HorizontalAlignment="Left" Margin="162,98,0,0" VerticalAlignment="Top" Height="22" FontSize="11" Grid.Column="1" Grid.Row="1"/>
-        <Label x:Name="LabelPass" Content="Contraseña" HorizontalAlignment="Left" Margin="140,142,0,0" VerticalAlignment="Top" Height="22" FontSize="11" Grid.Column="1" Grid.Row="1"/>
-        <Button x:Name="CrearCuentaB" Content="Crear Cuenta" HorizontalAlignment="Left" Margin="240,247,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Click="CrearCuentaB_Click"/>
-        <Button x:Name="Iniciar_Sesión" Content="Iniciar sesión" HorizontalAlignment="Left" Margin="404,247,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Click="Iniciar_Sesión_Click"/>
-        <PasswordBox x:Name="Passwordbox" Grid.Column="1" HorizontalAlignment="Left" Height="22" Margin="212,142,0,0" Grid.Row="1" VerticalAlignment="Top" Width="328"/>
-    </Grid>
+        Title="Iniciar sesión"
+        Height="450"
+        Width="800"
+        WindowStartupLocation="CenterScreen"
+		WindowState="Maximized"
+        Background="#DDE6ED">
+
+	<Window.Resources>
+
+		<!-- Colores base -->
+		<SolidColorBrush x:Key="PrimaryBrush" Color="#536D82"/>
+		<SolidColorBrush x:Key="Extra2Brush" Color="#9DB2BF"/>
+		<SolidColorBrush x:Key="Extra1Brush" Color="#26374D"/>
+		<SolidColorBrush x:Key="SuccessBrush" Color="#B3DFB3"/>
+		<SolidColorBrush x:Key="DangerBrush" Color="#C20000"/>
+		<SolidColorBrush x:Key="BackgroundBrush" Color="#DDE6ED"/>
+		<SolidColorBrush x:Key="SecondBackgroundBrush" Color="#F5F4F0"/>
+
+		<!-- TextBox -->
+		<Style TargetType="TextBox">
+			<Setter Property="Height" Value="36"/>
+			<Setter Property="FontSize" Value="14"/>
+			<Setter Property="Padding" Value="8"/>
+			<Setter Property="BorderBrush" Value="{StaticResource Extra2Brush}"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="Background" Value="White"/>
+			<Setter Property="Foreground" Value="{StaticResource Extra1Brush}"/>
+		</Style>
+
+		<!-- PasswordBox -->
+		<Style TargetType="PasswordBox">
+			<Setter Property="Height" Value="36"/>
+			<Setter Property="FontSize" Value="14"/>
+			<Setter Property="Padding" Value="8"/>
+			<Setter Property="BorderBrush" Value="{StaticResource Extra2Brush}"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="Background" Value="White"/>
+			<Setter Property="Foreground" Value="{StaticResource Extra1Brush}"/>
+		</Style>
+
+		<!-- Botón base -->
+		<Style x:Key="LoginButtonStyle" TargetType="Button">
+			<Setter Property="Height" Value="38"/>
+			<Setter Property="FontSize" Value="14"/>
+			<Setter Property="FontWeight" Value="SemiBold"/>
+			<Setter Property="Foreground" Value="{StaticResource SecondBackgroundBrush}"/>
+			<Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+			<Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="Cursor" Value="Hand"/>
+			<Setter Property="Padding" Value="10,6"/>
+
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Border x:Name="ButtonBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+
+							<ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+						</Border>
+
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource Extra2Brush}"/>
+								<Setter Property="Foreground" Value="{StaticResource Extra1Brush}"/>
+							</Trigger>
+
+							<Trigger Property="IsPressed" Value="True">
+								<Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource Extra1Brush}"/>
+								<Setter Property="Foreground" Value="White"/>
+							</Trigger>
+
+							<Trigger Property="IsEnabled" Value="False">
+								<Setter TargetName="ButtonBorder" Property="Background" Value="#EEEEEE"/>
+								<Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{StaticResource Extra2Brush}"/>
+								<Setter Property="Foreground" Value="{StaticResource Extra2Brush}"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+
+		<!-- Botón principal -->
+		<Style x:Key="PrimaryLoginButton" TargetType="Button" BasedOn="{StaticResource LoginButtonStyle}">
+			<Setter Property="Background" Value="{StaticResource SuccessBrush}"/>
+			<Setter Property="Foreground" Value="Black"/>
+			<Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+		</Style>
+
+		<!-- Botón secundario -->
+		<Style x:Key="SecondaryLoginButton" TargetType="Button" BasedOn="{StaticResource LoginButtonStyle}">
+			<Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+		</Style>
+
+	</Window.Resources>
+
+	<Grid Background="{StaticResource BackgroundBrush}">
+
+		<Border Width="420"
+                Padding="32"
+                Background="{StaticResource SecondBackgroundBrush}"
+                CornerRadius="14"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+			<Border.Effect>
+				<DropShadowEffect BlurRadius="18"
+                                  ShadowDepth="3"
+                                  Opacity="0.22"/>
+			</Border.Effect>
+
+			<StackPanel>
+
+				<TextBlock Text="Iniciar sesión"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           Foreground="{StaticResource Extra1Brush}"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,28"/>
+
+				<TextBlock Text="Correo"
+                           FontSize="14"
+                           Foreground="{StaticResource Extra1Brush}"
+                           Margin="0,0,0,6"/>
+
+				<TextBox x:Name="Correo"
+                         Margin="0,0,0,16"/>
+
+				<TextBlock Text="Contraseña"
+                           FontSize="14"
+                           Foreground="{StaticResource Extra1Brush}"
+                           Margin="0,0,0,6"/>
+
+				<PasswordBox x:Name="Passwordbox"
+                             Margin="0,0,0,16"/>
+
+				<TextBlock x:Name="LoginMessage"
+                           Text=""
+                           FontSize="13"
+                           FontWeight="SemiBold"
+                           TextAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,16"/>
+
+				<Button x:Name="Iniciar_Sesión"
+                        Content="Iniciar sesión"
+                        Style="{StaticResource PrimaryLoginButton}"
+                        Click="Iniciar_Sesión_Click"
+                        Margin="0,0,0,10"/>
+
+				<Button x:Name="CrearCuentaB"
+                        Content="Crear cuenta"
+                        Style="{StaticResource SecondaryLoginButton}"
+                        Click="CrearCuentaB_Click"/>
+
+			</StackPanel>
+
+		</Border>
+
+	</Grid>
 </Window>
