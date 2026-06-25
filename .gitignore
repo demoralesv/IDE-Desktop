@@ -1,0 +1,6 @@
+*.cache
+/Proyecto_Diseño/obj
+/Proyecto_Diseño/obj/Debug
+/.vs
+/Proyecto_Diseño/bin
+/Proyecto_Diseño/bin/Debug

@@ -10,45 +10,453 @@
         Width="850"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
+        Icon="logo.ico"
         Background="#DDE6ED">
-    <Grid>
-        <ListBox x:Name="CoursesList" HorizontalAlignment="Left" Height="165" Margin="40,0,0,0" VerticalAlignment="Center" Width="205">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding nombre}" FontWeight="Bold" Margin="0,0,5,0"/>
-                        <TextBlock Text="{Binding codigo}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <RichTextBox x:Name="TareaDescrip" HorizontalAlignment="Left" Height="153" Margin="478,137,0,0" VerticalAlignment="Top" Width="239">
-        </RichTextBox>
-        <TextBox x:Name="AdjuntoBox" HorizontalAlignment="Left" Margin="478,295,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Height="20" />
-        <TextBox x:Name="DateBox" HorizontalAlignment="Left" Height="20" Margin="478,320,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" RenderTransformOrigin="0.164,-0.303"/>
-        <ComboBox x:Name="Tareascombo" HorizontalAlignment="Left" Height="21" Margin="484,73,0,0" VerticalAlignment="Top" Width="155" ItemsSource="{Binding ElementName=CoursesList, Path=SelectedItem.tareas}" DisplayMemberPath="titulo" SelectionChanged="TareaSelect"/>
-        <Label x:Name="DescriptLabel" Content="Descripción" HorizontalAlignment="Left" Height="25" Margin="473,112,0,0" VerticalAlignment="Top" Width="77"/>
-        <Label x:Name="AdjuntoLabel" Content="Adjunto" HorizontalAlignment="Left" Margin="422,291,0,0" VerticalAlignment="Top"/>
-        <Label Content="Fecha de Entrega" HorizontalAlignment="Left" Height="26" Margin="373,316,0,0" VerticalAlignment="Top" Width="102"/>
-        <ListBox x:Name="Groups" HorizontalAlignment="Left" Height="79" Margin="478,345,0,0" VerticalAlignment="Top" Width="239" d:ItemsSource="{d:SampleData ItemCount=5}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock>
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0} {1}">
-                                    <Binding Path="nombre"/>
-                                    <Binding Path="apellido1"/>
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <ListBox x:Name="submissions" HorizontalAlignment="Left" Height="79" Margin="45,345,0,0" VerticalAlignment="Top" Width="200" d:ItemsSource="{d:SampleData ItemCount=5}"/>
-        <Button x:Name="Submit" Content="Entregar Tarea" HorizontalAlignment="Left" Height="23" Margin="250,401,0,0" VerticalAlignment="Top" Width="93" Click="SubmitWork"/>
 
+    <Window.Resources>
+
+        <!-- Colores base -->
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#536D82"/>
+        <SolidColorBrush x:Key="Extra2Brush" Color="#9DB2BF"/>
+        <SolidColorBrush x:Key="Extra1Brush" Color="#26374D"/>
+        <SolidColorBrush x:Key="SuccessBrush" Color="#B3DFB3"/>
+        <SolidColorBrush x:Key="DangerBrush" Color="#C20000"/>
+        <SolidColorBrush x:Key="InfoBrush" Color="#1BBDD6"/>
+        <SolidColorBrush x:Key="IconBrush" Color="#17A2B8"/>
+        <SolidColorBrush x:Key="IconHoverBrush" Color="#24818F"/>
+        <SolidColorBrush x:Key="BackgroundBrush" Color="#DDE6ED"/>
+        <SolidColorBrush x:Key="SecondBackgroundBrush" Color="#F5F4F0"/>
+
+        <!-- Texto general -->
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Foreground" Value="{StaticResource Extra1Brush}"/>
+        </Style>
+
+        <!-- TextBox -->
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Extra2Brush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="{StaticResource Extra1Brush}"/>
+        </Style>
+
+        <!-- ComboBox -->
+        <Style TargetType="ComboBox">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="Margin" Value="0,4,0,16"/>
+            <Setter Property="Foreground" Value="{StaticResource Extra1Brush}"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Extra2Brush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton x:Name="ToggleButton"
+                                        Focusable="False"
+                                        IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                        ClickMode="Press"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
+
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border x:Name="ComboBorder"
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="8">
+
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="36"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <ContentPresenter Grid.Column="0"
+                                                                Margin="10,0,0,0"
+                                                                HorizontalAlignment="Left"
+                                                                VerticalAlignment="Center"
+                                                                Content="{Binding SelectionBoxItem, RelativeSource={RelativeSource AncestorType=ComboBox}}"/>
+
+                                                <TextBlock Grid.Column="1"
+                                                        Text="▼"
+                                                        FontSize="10"
+                                                        Foreground="{StaticResource PrimaryBrush}"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="ComboBorder" Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+                                                <Setter TargetName="ComboBorder" Property="Background" Value="{StaticResource SecondBackgroundBrush}"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+
+                            <Popup x:Name="Popup"
+                                Placement="Bottom"
+                                IsOpen="{TemplateBinding IsDropDownOpen}"
+                                AllowsTransparency="True"
+                                Focusable="False"
+                                PopupAnimation="Slide">
+
+                                <Border Background="White"
+                                        BorderBrush="{StaticResource Extra2Brush}"
+                                        BorderThickness="1"
+                                        CornerRadius="8"
+                                        Margin="0,4,0,0"
+                                        MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
+
+                                    <ScrollViewer MaxHeight="220"
+                                                VerticalScrollBarVisibility="Auto">
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{StaticResource Extra1Brush}"/>
+            <Setter Property="Background" Value="White"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="ItemBorder"
+                                Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}">
+
+                            <ContentPresenter/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource Extra2Brush}"/>
+                            </Trigger>
+
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource PrimaryBrush}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- RichTextBox -->
+        <Style TargetType="RichTextBox">
+            <Setter Property="BorderBrush" Value="{StaticResource Extra2Brush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="{StaticResource Extra1Brush}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="8"/>
+        </Style>
+
+        <!-- ListBox -->
+        <Style TargetType="ListBox">
+            <Setter Property="BorderBrush" Value="{StaticResource Extra2Brush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Padding" Value="8"/>
+        </Style>
+
+        <!-- Item de lista -->
+        <Style TargetType="ListBoxItem">
+            <Setter Property="Margin" Value="0,0,0,8"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E5E7EB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="ItemBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+
+                            <ContentPresenter/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource Extra2Brush}"/>
+                                <Setter TargetName="ItemBorder" Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+                            </Trigger>
+
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource PrimaryBrush}"/>
+                                <Setter TargetName="ItemBorder" Property="BorderBrush" Value="{StaticResource Extra1Brush}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Botón base -->
+        <Style x:Key="ModernButton" TargetType="Button">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="MinWidth" Value="115"/>
+            <Setter Property="Padding" Value="14,6"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource SecondBackgroundBrush}"/>
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource Extra2Brush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource Extra1Brush}"/>
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource Extra1Brush}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#EEEEEE"/>
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{StaticResource Extra2Brush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource Extra2Brush}"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="{StaticResource SuccessBrush}"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Background="{StaticResource BackgroundBrush}" Margin="30">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Panel izquierdo -->
+        <Border Grid.Column="0"
+                Background="{StaticResource SecondBackgroundBrush}"
+                CornerRadius="14"
+                Padding="24">
+
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="16"
+                                  ShadowDepth="3"
+                                  Opacity="0.22"/>
+            </Border.Effect>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="130"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Cursos"
+                           FontSize="26"
+                           FontWeight="Bold"
+                           Margin="0,0,0,20"/>
+
+                <ListBox x:Name="CoursesList"
+                         Grid.Row="1"
+                         Margin="0,0,0,22">
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding nombre}"
+                                           FontWeight="Bold"
+                                           FontSize="14"/>
+
+                                <TextBlock Text="{Binding codigo}"
+                                           FontSize="13"
+                                           Foreground="{StaticResource PrimaryBrush}"
+                                           Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
+
+            </Grid>
+
+        </Border>
+
+        <!-- Panel derecho -->
+        <Border Grid.Column="2"
+                Background="{StaticResource SecondBackgroundBrush}"
+                CornerRadius="14"
+                Padding="28">
+
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="16"
+                                  ShadowDepth="3"
+                                  Opacity="0.22"/>
+            </Border.Effect>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="130"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Detalle de tarea"
+                           FontSize="26"
+                           FontWeight="Bold"
+                           Margin="0,0,0,22"/>
+
+                <StackPanel Grid.Row="1">
+                    <TextBlock Text="Tarea"
+                               FontSize="14"
+                               FontWeight="SemiBold"/>
+
+                    <ComboBox x:Name="Tareascombo"
+                              ItemsSource="{Binding ElementName=CoursesList, Path=SelectedItem.tareas}"
+                              DisplayMemberPath="titulo"
+                              SelectionChanged="TareaSelect"
+                              Margin="0,4,0,16"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2">
+                    <TextBlock x:Name="DescriptLabel"
+                               Text="Descripción"
+                               FontSize="14"
+                               FontWeight="SemiBold"/>
+
+                    <RichTextBox x:Name="TareaDescrip"
+                                 Height="170"
+                                 Margin="0,4,0,16"
+                                 IsReadOnly="True"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="3">
+                    <TextBlock x:Name="AdjuntoLabel"
+                               Text="Adjunto"
+                               FontSize="14"
+                               FontWeight="SemiBold"/>
+
+                    <TextBox x:Name="AdjuntoBox"
+                             IsReadOnly="True"
+                             Margin="0,4,0,16"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="4">
+                    <TextBlock Text="Fecha de entrega"
+                               FontSize="14"
+                               FontWeight="SemiBold"/>
+
+                    <TextBox x:Name="DateBox"
+                             IsReadOnly="True"
+                             Margin="0,4,0,16"/>
+                </StackPanel>
+
+                <Grid Grid.Row="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="90"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Integrantes del grupo"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,4"/>
+
+                    <ListBox x:Name="Groups"
+                            Grid.Row="1"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="Groups_SelectionChanged" Focusable="False">
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} {1}">
+                                                <Binding Path="nombre"/>
+                                                <Binding Path="apellido1"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                    </ListBox>
+                </Grid>
+
+                <Button x:Name="Submit"
+                        Grid.Row="6"
+                        Content="Entregar tarea"
+                        Style="{StaticResource PrimaryButton}"
+                        HorizontalAlignment="Right"
+                        Margin="0,20,0,0"
+                        Click="SubmitWork"/>
+
+            </Grid>
+
+        </Border>
 
     </Grid>
 </Window>

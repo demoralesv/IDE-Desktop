@@ -89,19 +89,23 @@ namespace Proyecto_Diseño
             return;
         }
 
-        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             if (LoginW == null)
             {
                 LoginW = new LoginWindow();
+
+                LoginW.Closed += (s, args) =>
+                {
+                    LoginW = null;
+                };
+
                 LoginW.Show();
             }
-            else 
+            else
             {
-                if (!LoginW.IsActive)
-                {
-                    LoginW.Show();
-                }
+                LoginW.Activate();
             }
         }
 
@@ -224,14 +228,17 @@ namespace Proyecto_Diseño
                 if (CursosW == null)
                 {
                     CursosW = new Mistareas();
+
+                    CursosW.Closed += (s, args) =>
+                    {
+                        CursosW = null;
+                    };
+
                     CursosW.Show();
                 }
                 else
                 {
-                    if (!CursosW.IsActive)
-                    {
-                        CursosW.Show();
-                    }
+                    CursosW.Activate();
                 }
             }
             else

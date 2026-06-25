@@ -5,52 +5,311 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Proyecto_Diseño"
         mc:Ignorable="d"
-        Title="MainWindow" Height="655" Width="950">
-    <Grid>
+        Title="MainWindow"
+        Height="655"
+        Width="950"
+        WindowState="Maximized"
+        Background="#DDE6ED">
+
+    <Window.Resources>
+
+        <!-- Colores base -->
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#536D82"/>
+        <SolidColorBrush x:Key="Extra2Brush" Color="#9DB2BF"/>
+        <SolidColorBrush x:Key="Extra1Brush" Color="#26374D"/>
+        <SolidColorBrush x:Key="SuccessBrush" Color="#B3DFB3"/>
+        <SolidColorBrush x:Key="DangerBrush" Color="#C20000"/>
+        <SolidColorBrush x:Key="InfoBrush" Color="#1BBDD6"/>
+        <SolidColorBrush x:Key="IconBrush" Color="#17A2B8"/>
+        <SolidColorBrush x:Key="IconHoverBrush" Color="#24818F"/>
+        <SolidColorBrush x:Key="BackgroundBrush" Color="#DDE6ED"/>
+        <SolidColorBrush x:Key="SecondBackgroundBrush" Color="#F5F4F0"/>
+
+        <!-- Texto general -->
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Foreground" Value="{StaticResource Extra1Brush}"/>
+        </Style>
+
+        <!-- Botón base -->
+        <Style x:Key="ModernButton" TargetType="Button">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="MinWidth" Value="105"/>
+            <Setter Property="Padding" Value="14,6"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource SecondBackgroundBrush}"/>
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource Extra2Brush}"/>
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource Extra1Brush}"/>
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource Extra1Brush}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#EEEEEE"/>
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{StaticResource Extra2Brush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource Extra2Brush}"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource ModernButton}"/>
+
+        <!-- Botón de ejecución -->
+        <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="{StaticResource SuccessBrush}"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="MinWidth" Value="110"/>
+        </Style>
+
+        <!-- Botón secundario -->
+        <Style x:Key="InfoButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+        </Style>
+
+        <!-- RichTextBox -->
+        <Style TargetType="RichTextBox">
+            <Setter Property="BorderBrush" Value="{StaticResource Extra2Brush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <!-- TreeView -->
+        <Style TargetType="TreeView">
+            <Setter Property="BorderBrush" Value="{StaticResource Extra2Brush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+
+        <Style TargetType="TreeViewItem">
+            <Setter Property="Margin" Value="0,2,0,2"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Background="{StaticResource BackgroundBrush}">
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="623*"/>
-            <RowDefinition Height="11*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-
+            <ColumnDefinition Width="175"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <RichTextBox x:Name="IDE" PreviewKeyDown="IDEKey" BorderBrush="Black" AcceptsTab="True" Margin="139,48,10,169" VerticalScrollBarVisibility="Visible" TextChanged="IDETextChange" Grid.Row="1">
+
+        <!-- Barra superior -->
+        <Border Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Background="{StaticResource SecondBackgroundBrush}"
+                BorderBrush="{StaticResource Extra2Brush}"
+                BorderThickness="0,0,0,1"
+                Padding="10">
+
+            <DockPanel LastChildFill="False">
+
+                <StackPanel Orientation="Horizontal"
+                            DockPanel.Dock="Left">
+
+                    <Button x:Name="LoginButton"
+                            Content="Iniciar sesión"
+                            Click="Button_Click_1"/>
+
+                    <Button x:Name="OpenDoc"
+                            Content="Abrir documento"
+                            Click="Button_Click"/>
+
+                    <Button x:Name="SaveButton"
+                            Content="Guardar"
+                            Click="SaveButton_Click"/>
+
+                    <Button x:Name="New_File"
+                            Content="Archivo nuevo"
+                            Click="NewFile"/>
+
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal"
+                            DockPanel.Dock="Right">
+
+                    <Button x:Name="TareasButton"
+                            Content="Mis tareas"
+                            Style="{StaticResource InfoButton}"
+                            Click="TareaClick"/>
+
+                </StackPanel>
+
+            </DockPanel>
+
+        </Border>
+
+        <!-- Panel izquierdo de proyecto -->
+        <Border Grid.Row="1"
+                Grid.RowSpan="4"
+                Grid.Column="0"
+                Background="{StaticResource SecondBackgroundBrush}"
+                BorderBrush="{StaticResource Extra2Brush}"
+                BorderThickness="0,0,1,0"
+                Padding="10">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="ProjectBotton"
+                        Content="Abrir proyecto"
+                        Click="NewProject"
+                        Margin="0,0,0,8"/>
+
+                <TreeView x:Name="Project"
+                          Grid.Row="2"
+                          ItemsSource="{Binding ProjectTree}"
+                          SelectedItemChanged="OpenProjectScript">
+
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding folder}">
+                            <TextBlock Text="{Binding filename}"/>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+
+                </TreeView>
+
+            </Grid>
+
+        </Border>
+
+        <!-- Tabs -->
+        <TabControl x:Name="Scriptstab"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Height="34"
+                    Margin="10,8,10,0"
+                    Background="{StaticResource SecondBackgroundBrush}"
+                    BorderBrush="{StaticResource Extra2Brush}"
+                    SelectionChanged="ScriptTabChange">
+
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding filename}"
+                               FontWeight="SemiBold"
+                               Margin="8,0"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+
+        </TabControl>
+
+        <!-- Editor principal -->
+        <RichTextBox x:Name="IDE"
+                     Grid.Row="2"
+                     Grid.Column="1"
+                     PreviewKeyDown="IDEKey"
+                     AcceptsTab="True"
+                     Margin="10,8,10,8"
+                     VerticalScrollBarVisibility="Visible"
+                     TextChanged="IDETextChange">
+
             <RichTextBox.Resources>
                 <Style TargetType="{x:Type Paragraph}">
-                    <Setter Property="LineHeight" Value="10"></Setter>
-                    <Setter Property="LineStackingStrategy" Value="BlockLineHeight"></Setter>
+                    <Setter Property="LineHeight" Value="16"/>
+                    <Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
                 </Style>
             </RichTextBox.Resources>
+
             <FlowDocument>
                 <Paragraph/>
             </FlowDocument>
+
         </RichTextBox>
-        <Button x:Name="LoginButton" Content="Iniciar sesión" Margin="0,3,372,0" VerticalAlignment="Top" Height="19" Click="Button_Click_1" HorizontalAlignment="Right" Width="72" Grid.RowSpan="2"/>
-        <Button x:Name="OpenDoc" Content="Abrir documento" Margin="0,3,273,0" Click="Button_Click" Height="19" VerticalAlignment="Top" Grid.RowSpan="2" HorizontalAlignment="Right" Width="94"/>
-        <Button x:Name="SaveButton" Content="Guardar" Margin="0,3,214,0" RenderTransformOrigin="0.48,-0.223" Click="SaveButton_Click" HorizontalAlignment="Right" Width="54" Grid.RowSpan="2" Height="19" VerticalAlignment="Top"/>
-        <RichTextBox x:Name="LogTerminal" BorderBrush="Black" IsReadOnly="True" VerticalScrollBarVisibility="Auto" Margin="139,0,10,74" Height="90" VerticalAlignment="Bottom" Grid.Row="1"/>
-        <Button Content="Ejecutar " Margin="14,0,0,10" Click="RunScript" HorizontalAlignment="Left" Width="53" Height="23" VerticalAlignment="Bottom" Grid.Row="1" Grid.RowSpan="2"/>
-        <RichTextBox x:Name="CommandTerminal" Grid.Row="1" PreviewKeyDown="CmdKeys" Margin="139,0,6,32" Height="37" VerticalAlignment="Bottom"/>
-        <Button x:Name="GitButton" Content="Git" Margin="0,0,7,10" Click="GitWindow" HorizontalAlignment="Right" Width="65" Height="22" VerticalAlignment="Bottom" Grid.Row="1" Grid.RowSpan="2"/>
-        <Button x:Name="New_File" Content="archivo nuevo" HorizontalAlignment="Right" Margin="0,3,121,0" VerticalAlignment="Top" Width="88" Height="19" Click="NewFile" Grid.RowSpan="2"/>
-        <Button x:Name="TareasButton" Content="Mis tareas" HorizontalAlignment="Right" Height="19" Margin="0,3,5,0" VerticalAlignment="Top" Width="89" Click="TareaClick" Grid.RowSpan="2"/>
-        <TabControl x:Name="Scriptstab" HorizontalAlignment="Left" Height="21" Margin="139,27,0,0" VerticalAlignment="Top" Width="801" SelectionChanged="ScriptTabChange" Grid.Row="1" >
-            <TabControl.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding filename}"/>
-                </DataTemplate>
-            </TabControl.ItemTemplate>
-        </TabControl>
-        <Button x:Name="ProjectBotton" Content="Abrir proyecto" HorizontalAlignment="Left" Margin="14,4,0,0" Width="88" Click="NewProject" Height="19" VerticalAlignment="Top" Grid.RowSpan="2"/>
-        <Button x:Name="RunProject" Content="Run" HorizontalAlignment="Left" Margin="14,23,0,0" VerticalAlignment="Top" Width="42" Grid.Row="1"/>
-        <TreeView x:Name="Project" Margin="4,48,0,169" Grid.Row="1" ItemsSource="{Binding ProjectTree}" HorizontalAlignment="Left" Width="130" SelectedItemChanged="OpenProjectScript">
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding folder}">
-                    <TextBlock Text="{Binding filename}"/>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
+
+        <!-- Terminal de salida -->
+        <RichTextBox x:Name="LogTerminal"
+                     Grid.Row="3"
+                     Grid.Column="1"
+                     IsReadOnly="True"
+                     VerticalScrollBarVisibility="Auto"
+                     Margin="10,0,10,8"
+                     Background="White"/>
+
+        <!-- Terminal de comandos -->
+        <RichTextBox x:Name="CommandTerminal"
+                     Grid.Row="4"
+                     Grid.Column="1"
+                     PreviewKeyDown="CmdKeys"
+                     Margin="10,0,10,8"
+                     Background="White"/>
+
+        <!-- Barra inferior -->
+        <Border Grid.Row="5"
+                Grid.ColumnSpan="2"
+                Background="{StaticResource SecondBackgroundBrush}"
+                BorderBrush="{StaticResource Extra2Brush}"
+                BorderThickness="0,1,0,0"
+                Padding="10">
+
+            <DockPanel LastChildFill="False">
+
+                <Button Content="Ejecutar"
+                        Style="{StaticResource PrimaryButton}"
+                        Click="RunScript"
+                        DockPanel.Dock="Left"/>
+
+                <Button x:Name="GitButton"
+                        Content="Git"
+                        Style="{StaticResource InfoButton}"
+                        Click="GitWindow"
+                        DockPanel.Dock="Right"/>
+
+            </DockPanel>
+
+        </Border>
+
     </Grid>
 </Window>

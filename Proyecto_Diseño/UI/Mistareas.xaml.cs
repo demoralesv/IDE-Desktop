@@ -111,7 +111,7 @@ namespace Proyecto_Diseño.UI
                     var result = Api.submitAssignment(file.FileName, tarea.ID);
                     var jsonresult = await result;
                     
-                    MessageBox.Show(jsonresult);
+                    MessageBox.Show("Entrega realizada con éxito");
                 }
             }
         }
@@ -138,6 +138,11 @@ namespace Proyecto_Diseño.UI
                 }
             }
             return true;
+        }
+
+        private void Groups_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

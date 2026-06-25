@@ -10,6 +10,7 @@
         Width="800"
         WindowStartupLocation="CenterScreen"
 		WindowState="Maximized"
+		Icon="logo.ico"
         Background="#DDE6ED">
 
 	<Window.Resources>

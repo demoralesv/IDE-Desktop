@@ -5,23 +5,256 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Proyecto_Diseño.UI"
         mc:Ignorable="d"
-        Title="GitWindow" Height="412" Width="800">
-    <Grid Margin="0,0,0,-6">
-        <RichTextBox x:Name="LogGit" Margin="10,33,10,220" IsReadOnly="True" VerticalScrollBarVisibility="Auto">
-            <RichTextBox.Resources>
-                <Style TargetType="{x:Type Paragraph}">
-                    <Setter Property="LineHeight" Value="10"></Setter>
-                    <Setter Property="LineStackingStrategy" Value="BlockLineHeight"></Setter>
-                </Style>
-            </RichTextBox.Resources>
-        </RichTextBox>
-        <Button x:Name="SetDir" Content="Init Directorio" HorizontalAlignment="Left" Height="24" Margin="10,256,0,0" VerticalAlignment="Top" Width="88" Click="ChangeDir"/>
-        <Button x:Name="Commit" Content="Commit" HorizontalAlignment="Left" Height="25" Margin="10,285,0,0" VerticalAlignment="Top" Width="88" Click="CommitGit"/>
-        <Button x:Name="pull" Content="pull" HorizontalAlignment="Left" Margin="10,315,0,0" VerticalAlignment="Top" Width="88" Height="25" Click="Gitpull"/>
-        <Button x:Name="push" Content="push" HorizontalAlignment="Left" Margin="10,345,0,0" VerticalAlignment="Top" Height="25" Width="88" Click="pushgit"/>
-        <TextBox x:Name="CommitMessage" HorizontalAlignment="Left" Margin="103,285,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="234" Height="25"/>
-        <Button x:Name="CloneRepo" Content="Clone Rep" HorizontalAlignment="Left" Height="25" Margin="10,227,0,0" VerticalAlignment="Top" Width="88" Click="CloreGit"/>
-        <TextBox x:Name="Repoclone" HorizontalAlignment="Left" Height="25" Margin="103,227,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="234"/>
+        Title="Git"
+        Height="500"
+        Width="850"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Icon="logo.ico"
+        Background="#DDE6ED">
+
+    <Window.Resources>
+
+        <!-- Colores base -->
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#536D82"/>
+        <SolidColorBrush x:Key="Extra2Brush" Color="#9DB2BF"/>
+        <SolidColorBrush x:Key="Extra1Brush" Color="#26374D"/>
+        <SolidColorBrush x:Key="SuccessBrush" Color="#B3DFB3"/>
+        <SolidColorBrush x:Key="DangerBrush" Color="#C20000"/>
+        <SolidColorBrush x:Key="InfoBrush" Color="#1BBDD6"/>
+        <SolidColorBrush x:Key="IconBrush" Color="#17A2B8"/>
+        <SolidColorBrush x:Key="IconHoverBrush" Color="#24818F"/>
+        <SolidColorBrush x:Key="BackgroundBrush" Color="#DDE6ED"/>
+        <SolidColorBrush x:Key="SecondBackgroundBrush" Color="#F5F4F0"/>
+
+        <!-- Texto general -->
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Foreground" Value="{StaticResource Extra1Brush}"/>
+        </Style>
+
+        <!-- TextBox -->
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Extra2Brush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="{StaticResource Extra1Brush}"/>
+        </Style>
+
+        <!-- RichTextBox -->
+        <Style TargetType="RichTextBox">
+            <Setter Property="BorderBrush" Value="{StaticResource Extra2Brush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="{StaticResource Extra1Brush}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="Padding" Value="8"/>
+        </Style>
+
+        <!-- Botón base -->
+        <Style x:Key="ModernButton" TargetType="Button">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="MinWidth" Value="115"/>
+            <Setter Property="Padding" Value="14,6"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource SecondBackgroundBrush}"/>
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource Extra2Brush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource Extra1Brush}"/>
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="{StaticResource Extra1Brush}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#EEEEEE"/>
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{StaticResource Extra2Brush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource Extra2Brush}"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource ModernButton}"/>
+
+        <!-- Botón principal -->
+        <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="{StaticResource SuccessBrush}"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+        </Style>
+
+        <!-- Botón secundario -->
+        <Style x:Key="InfoButton" TargetType="Button" BasedOn="{StaticResource ModernButton}">
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Background="{StaticResource BackgroundBrush}"
+          Margin="30">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260"/>
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Panel izquierdo: acciones Git -->
+        <Border Grid.Column="0"
+                Background="{StaticResource SecondBackgroundBrush}"
+                CornerRadius="14"
+                Padding="24">
+
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="16"
+                                  ShadowDepth="3"
+                                  Opacity="0.22"/>
+            </Border.Effect>
+
+            <StackPanel>
+
+                <TextBlock Text="Git"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           Margin="0,0,0,6"/>
+
+                <TextBlock Text="Acciones del repositorio"
+                           FontSize="14"
+                           Foreground="{StaticResource PrimaryBrush}"
+                           Margin="0,0,0,24"/>
+
+                <Button x:Name="SetDir"
+                        Content="Init Directorio"
+                        Style="{StaticResource InfoButton}"
+                        Click="ChangeDir"/>
+
+                <Button x:Name="CloneRepo"
+                        Content="Clone Rep"
+                        Style="{StaticResource InfoButton}"
+                        Click="CloreGit"/>
+
+                <Button x:Name="Commit"
+                        Content="Commit"
+                        Style="{StaticResource PrimaryButton}"
+                        Click="CommitGit"/>
+
+                <Button x:Name="pull"
+                        Content="Pull"
+                        Style="{StaticResource InfoButton}"
+                        Click="Gitpull"/>
+
+                <Button x:Name="push"
+                        Content="Push"
+                        Style="{StaticResource InfoButton}"
+                        Click="pushgit"/>
+
+            </StackPanel>
+
+        </Border>
+
+        <!-- Panel derecho -->
+        <Border Grid.Column="2"
+                Background="{StaticResource SecondBackgroundBrush}"
+                CornerRadius="14"
+                Padding="28">
+
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="16"
+                                  ShadowDepth="3"
+                                  Opacity="0.22"/>
+            </Border.Effect>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Consola Git"
+                           FontSize="26"
+                           FontWeight="Bold"
+                           Margin="0,0,0,18"/>
+
+                <RichTextBox x:Name="LogGit"
+                             Grid.Row="1"
+                             IsReadOnly="True"
+                             VerticalScrollBarVisibility="Auto"
+                             Margin="0,0,0,20">
+
+                    <RichTextBox.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="LineHeight" Value="16"/>
+                            <Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
+                        </Style>
+                    </RichTextBox.Resources>
+
+                </RichTextBox>
+
+                <StackPanel Grid.Row="2"
+                            Margin="0,0,0,16">
+
+                    <TextBlock Text="Repositorio para clonar"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,6"/>
+
+                    <TextBox x:Name="Repoclone"
+                             TextWrapping="Wrap"/>
+
+                </StackPanel>
+
+                <StackPanel Grid.Row="3">
+
+                    <TextBlock Text="Mensaje de commit"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,6"/>
+
+                    <TextBox x:Name="CommitMessage"
+                             TextWrapping="Wrap"/>
+
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
 
     </Grid>
 </Window>
