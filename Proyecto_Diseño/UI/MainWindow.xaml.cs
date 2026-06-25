@@ -384,6 +384,7 @@ namespace Proyecto_Diseño
             if (TV.SelectedItem is TreeViewItem TVitem)
             {
                 ProjectFiles file = TVitem.Tag as ProjectFiles;
+                if (file.Directory) return;
                 string fullpath = file.path + "\\" + file.filename;
                 SignedScript prueba = new SignedScript(new Script(fullpath));
                 if (!prueba.verificarfirma())
