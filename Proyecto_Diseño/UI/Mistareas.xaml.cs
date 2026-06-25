@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.ConstrainedExecution;
@@ -17,7 +18,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Proyecto_Diseño.UI
 {
@@ -78,6 +78,11 @@ namespace Proyecto_Diseño.UI
         private async void BotonPruebaClick(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        private async void SubmitWork(object sender, RoutedEventArgs e)
+        {
+
             TareaInfo tarea = (TareaInfo)Tareascombo.SelectedItem;
             if (tarea != null)
             {
@@ -86,16 +91,53 @@ namespace Proyecto_Diseño.UI
                 if (success == true)
                 {
                     var Api = ApiService.getInstance();
+                    if (Path.GetExtension(file.FileName).Equals(".zip"))
+                    {
+                        if (checksignsZip(file.FileName))
+                        {
+                            MessageBox.Show("El archivo contiene un script sin firmar ");
+                        }
+                    }
+                    if (Path.GetExtension(file.FileName).Equals(".py"))
+                    {
+                        SignedScript prueba = new SignedScript(new Script(file.FileName));
+                        if (!prueba.verificarfirma())
+                        {
+                            MessageBox.Show("El archivo no esta firmado por el IDE");
+                            return;
+                        }
+                    }
+                    
                     var result = Api.submitAssignment(file.FileName, tarea.ID);
                     var jsonresult = await result;
+                    
                     MessageBox.Show(jsonresult);
                 }
             }
         }
 
-        private void SubmitWork(object sender, RoutedEventArgs e)
+        private bool checksignsZip(string path)
         {
-
+            Script s = new Script("");
+            using (ZipArchive zip = ZipFile.OpenRead(path)) {
+                
+                foreach (var file in zip.Entries)
+                {
+ 
+                    if (Path.GetExtension(file.FullName).Equals(".py")){
+                        s.SetPath(file.FullName);
+                        StreamReader sr = new StreamReader(file.Open());
+                        s.SetContent(sr.ReadToEnd());
+                        
+                        SignedScript ss = new SignedScript(s);
+                        if (!ss.verificarfirma())
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
         }
     }
 }

@@ -62,6 +62,10 @@ namespace Proyecto_Diseño
         {
             path = newpath;
         }
+        public void SetFile(string name)
+        {
+            filename = name;
+        }
         public void SetContent(string newcontent)
         {
             scriptcontent = newcontent;

@@ -63,7 +63,7 @@ namespace Proyecto_Diseño
                     MessageBox.Show("El archivo no esta firmado por el IDE");
                     return;
                 }
-                //Checking if the script is already in the IDE
+
                 bool scriptopen = false;
                 foreach (var Existingscript in scripts) {
                     if (Existingscript.GetPath().Equals(prueba.GetPath()))
@@ -78,8 +78,7 @@ namespace Proyecto_Diseño
                     script = new Script(file.FileName);
                     scripts.Add(script);
                 }
-                //////////////////////
-                //process
+
                 IDE.Document.Blocks.Clear();
                 IDE.IsUndoEnabled = false;
                 IDE.AppendText(script.GetCurrentFileContent());
@@ -89,7 +88,7 @@ namespace Proyecto_Diseño
             }
             return;
         }
-        //Login Button
+
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
             if (LoginW == null)
